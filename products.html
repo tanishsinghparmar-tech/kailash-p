@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | Kailash Pavitra Atta</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { brand: { bg: '#faf8f5', primary: '#2d3a18', gold: '#d4af37', text: '#1a1f16', accent: '#f5efe0' } }, fontFamily: { sans: ['Inter', 'sans-serif'], heading: ['Playfair Display', 'serif'] } } }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-brand-bg text-brand-text min-h-screen flex flex-col antialiased">
+
+    <!-- NAVBAR (Same as index.html) -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-3 bg-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="relative w-12 h-12 rounded-full border-2 border-brand-gold bg-white p-1 overflow-hidden transition-transform group-hover:scale-105">
+                        <img src="logo.png" alt="Kailash Atta" class="w-full h-full object-contain" />
+                    </div>
+                    <div class="hidden sm:block">
+                        <div class="font-heading font-bold text-brand-primary text-xl leading-none">Kailash Pavitra Atta</div>
+                        <div class="text-[0.65rem] tracking-widest uppercase text-brand-gold font-semibold mt-1">Since 1972</div>
+                    </div>
+                </a>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="text-sm font-medium text-gray-600 hover:text-brand-primary transition-colors">Home</a>
+                    <a href="products.html" class="text-sm font-semibold text-brand-primary border-b-2 border-brand-primary">Products</a>
+                    <a href="about.html" class="text-sm font-medium text-gray-600 hover:text-brand-primary transition-colors">About Us</a>
+                    <a href="blog.html" class="text-sm font-medium text-gray-600 hover:text-brand-primary transition-colors">Blog</a>
+                    <div class="flex items-center gap-4 ml-4">
+                        <button onclick="openCart()" class="relative p-2 text-brand-primary hover:text-brand-gold transition-colors">
+                            <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                            <span class="cart-count hidden absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 md:hidden">
+                    <button onclick="openCart()" class="relative p-2 text-brand-primary">
+                        <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                        <span class="cart-count hidden absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="text-brand-primary p-2">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 animate-slide-down">
+            <div class="px-4 py-6 space-y-4">
+                <a href="index.html" class="block text-gray-600 font-medium">Home</a>
+                <a href="products.html" class="block text-brand-primary font-bold">Products</a>
+                <a href="about.html" class="block text-gray-600 font-medium">About Us</a>
+                <a href="blog.html" class="block text-gray-600 font-medium">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CART DRAWER -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300" onclick="closeCart()"></div>
+    <div id="cart-drawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white z-[70] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-brand-bg">
+            <h2 class="font-heading font-bold text-xl text-brand-primary flex items-center gap-2">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-gold"></i> Your Bag
+            </h2>
+            <button onclick="closeCart()" class="p-2 text-gray-400 hover:text-brand-primary rounded-full hover:bg-white transition-all">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar"></div>
+        <div class="border-t border-gray-100 p-6 bg-brand-bg/50">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-semibold text-gray-600">Subtotal</span>
+                <span id="cart-subtotal" class="text-xl font-bold text-brand-primary">₹0</span>
+            </div>
+            <a href="checkout.html" class="w-full bg-brand-primary hover:bg-brand-gold text-white py-4 rounded-xl font-bold tracking-widest uppercase transition-all shadow-md flex items-center justify-center gap-2 group">
+                Proceed to Checkout <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow pt-32 pb-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in">
+                <h1 class="text-4xl md:text-6xl font-heading font-semibold text-brand-text mb-6">Our <span class="text-brand-gold italic">Products</span></h1>
+                <p class="text-brand-text/70 max-w-2xl mx-auto text-lg">
+                    Explore our range of premium, freshly ground flours designed for every household need.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Product 1 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-gold/10 hover:shadow-xl transition-all duration-500 flex flex-col lg:flex-row group animate-fade-in" style="animation-delay: 0.1s;">
+                    <div class="lg:w-2/5 h-64 lg:h-auto bg-white flex items-center justify-center p-4 relative overflow-hidden group-hover:bg-gray-50 transition-colors">
+                        <img src="chakki.jpg" alt="Shudh Chakki Atta" class="w-full h-full max-h-[300px] object-contain group-hover:scale-105 transition-transform duration-500" />
+                    </div>
+                    <div class="p-8 lg:w-3/5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <div class="text-[0.65rem] tracking-widest uppercase text-brand-gold font-bold mb-1">Premium Quality</div>
+                                    <h3 class="text-2xl font-heading font-bold text-brand-text">Shudh Chakki Atta</h3>
+                                </div>
+                                <div class="text-right shrink-0">
+                                    <div class="text-sm text-brand-text/60 font-medium">5 KG</div>
+                                    <div class="text-2xl font-bold text-brand-primary">₹199</div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-brand-text/70 mt-4 leading-relaxed">Traditional stone-ground whole wheat atta, retaining natural fibers and nutrients. Ground fresh every day for the softest rotis.</p>
+                            <ul class="mt-6 space-y-2">
+                                <li class="flex items-center gap-2 text-sm text-brand-text/80 font-medium"><i data-lucide="shield-check" class="w-4 h-4 text-brand-gold shrink-0"></i> Soft Rotis</li>
+                                <li class="flex items-center gap-2 text-sm text-brand-text/80 font-medium"><i data-lucide="shield-check" class="w-4 h-4 text-brand-gold shrink-0"></i> Stone Ground</li>
+                            </ul>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-brand-gold/10">
+                            <button onclick="addToCart('chakki', 'Shudh Chakki Atta', 199, '5 KG', 'chakki.jpg')" class="w-full bg-brand-primary hover:bg-brand-gold text-white py-3.5 rounded-lg font-bold tracking-wider uppercase transition-all shadow-md flex justify-center items-center gap-2 group/btn">
+                                Add to Cart <i data-lucide="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-gold/10 hover:shadow-xl transition-all duration-500 flex flex-col lg:flex-row group animate-fade-in" style="animation-delay: 0.2s;">
+                    <div class="lg:w-2/5 h-64 lg:h-auto bg-white flex items-center justify-center p-4 relative overflow-hidden group-hover:bg-gray-50 transition-colors">
+                        <img src="multigrain.jpg" alt="Multigrain Atta" class="w-full h-full max-h-[300px] object-contain group-hover:scale-105 transition-transform duration-500" />
+                    </div>
+                    <div class="p-8 lg:w-3/5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <div class="text-[0.65rem] tracking-widest uppercase text-brand-gold font-bold mb-1">7 Grains Blend</div>
+                                    <h3 class="text-2xl font-heading font-bold text-brand-text">Multigrain Atta</h3>
+                                </div>
+                                <div class="text-right shrink-0">
+                                    <div class="text-sm text-brand-text/60 font-medium">5 KG</div>
+                                    <div class="text-2xl font-bold text-brand-primary">₹299</div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-brand-text/70 mt-4 leading-relaxed">A healthy mix of wheat, chana, oats, soyabean, and more for complete nutrition. Perfect for a balanced family diet.</p>
+                            <ul class="mt-6 space-y-2">
+                                <li class="flex items-center gap-2 text-sm text-brand-text/80 font-medium"><i data-lucide="shield-check" class="w-4 h-4 text-brand-gold shrink-0"></i> High Fiber</li>
+                                <li class="flex items-center gap-2 text-sm text-brand-text/80 font-medium"><i data-lucide="shield-check" class="w-4 h-4 text-brand-gold shrink-0"></i> Better Digestion</li>
+                            </ul>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-brand-gold/10">
+                            <button onclick="addToCart('multigrain', 'Multigrain Atta', 299, '5 KG', 'multigrain.jpg')" class="w-full bg-brand-primary hover:bg-brand-gold text-white py-3.5 rounded-lg font-bold tracking-wider uppercase transition-all shadow-md flex justify-center items-center gap-2 group/btn">
+                                Add to Cart <i data-lucide="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-brand-gold/10 hover:shadow-xl transition-all duration-500 flex flex-col lg:flex-row group animate-fade-in" style="animation-delay: 0.3s;">
+                    <div class="lg:w-2/5 h-64 lg:h-auto bg-white flex items-center justify-center p-4 relative overflow-hidden group-hover:bg-gray-50 transition-colors">
+                        <img src="protein.jpg" alt="Protein Atta" class="w-full h-full max-h-[300px] object-contain group-hover:scale-105 transition-transform duration-500" />
+                    </div>
+                    <div class="p-8 lg:w-3/5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <div class="text-[0.65rem] tracking-widest uppercase text-brand-gold font-bold mb-1">Natural Strength</div>
+                                    <h3 class="text-2xl font-heading font-bold text-brand-text">High Protein Atta</h3>
+                                </div>
+                                <div class="text-right shrink-0">
+                                    <div class="text-sm text-brand-text/60 font-medium">5 KG</div>
+                                    <div class="text-2xl font-bold text-brand-primary">₹349</div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-brand-text/70 mt-4 leading-relaxed">Specially formulated for fitness enthusiasts and growing children. Packed with extra plant-based protein.</p>
+                            <ul class="mt-6 space-y-2">
+                                <li class="flex items-center gap-2 text-sm text-brand-text/80 font-medium"><i data-lucide="shield-check" class="w-4 h-4 text-brand-gold shrink-0"></i> High Protein</li>
+                                <li class="flex items-center gap-2 text-sm text-brand-text/80 font-medium"><i data-lucide="shield-check" class="w-4 h-4 text-brand-gold shrink-0"></i> Fitness Friendly</li>
+                            </ul>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-brand-gold/10">
+                            <button onclick="addToCart('protein', 'High Protein Atta', 349, '5 KG', 'protein.jpg')" class="w-full bg-brand-primary hover:bg-brand-gold text-white py-3.5 rounded-lg font-bold tracking-wider uppercase transition-all shadow-md flex justify-center items-center gap-2 group/btn">
+                                Add to Cart <i data-lucide="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#2d3a18] text-[#f5efe0] pt-16 pb-8 border-t-[6px] border-brand-gold mt-auto">
+        <!-- Kept simple for space -->
+        <div class="text-center text-sm text-[#f5efe0]/50">&copy; 2026 Kailash Pavitra Atta. All rights reserved.</div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

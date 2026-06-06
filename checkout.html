@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Kailash Pavitra Atta</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { brand: { bg: '#faf8f5', primary: '#2d3a18', gold: '#d4af37', text: '#1a1f16', accent: '#f5efe0' } }, fontFamily: { sans: ['Inter', 'sans-serif'], heading: ['Playfair Display', 'serif'] } } }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-brand-bg text-brand-text min-h-screen flex flex-col antialiased">
+
+    <nav class="w-full bg-white border-b border-gray-200 py-4">
+        <div class="max-w-3xl mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 text-brand-primary hover:text-brand-gold"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back</a>
+            <div class="font-heading font-bold text-brand-primary text-xl">Secure Checkout</div>
+        </div>
+    </nav>
+
+    <main class="flex-grow py-12">
+        <div class="max-w-3xl mx-auto px-4">
+            <form onsubmit="processCheckout(event)" class="bg-white p-8 rounded-2xl shadow-sm border border-brand-gold/10">
+                <h2 class="text-2xl font-bold mb-6">Delivery Details</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Full Name</label>
+                        <input type="text" name="name" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand-gold outline-none" placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Phone Number (WhatsApp)</label>
+                        <input type="tel" name="phone" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand-gold outline-none" placeholder="+91">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Delivery Address (Kota only)</label>
+                        <textarea name="address" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand-gold outline-none h-24" placeholder="House no, Street, Landmark..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Any specific instructions?</label>
+                        <input type="text" name="instructions" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand-gold outline-none" placeholder="E.g. Leave at gate">
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t">
+                    <button type="submit" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-4 rounded-xl font-bold text-lg shadow-md flex justify-center items-center gap-2">
+                        <i data-lucide="message-circle"></i> Place Order via WhatsApp
+                    </button>
+                    <p class="text-center text-xs text-gray-500 mt-4">You will be redirected to WhatsApp to confirm your order details.</p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

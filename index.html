@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kailash Pavitra Atta | Serving Pure Flour Since 1972</title>
+    <meta name="description" content="Kota's trusted traditional flour mill. Delivering pure, freshly ground chakki atta to your family's doorstep.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#faf8f5',
+                            primary: '#2d3a18',
+                            gold: '#d4af37',
+                            text: '#1a1f16',
+                            accent: '#f5efe0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-brand-bg text-brand-text min-h-screen flex flex-col antialiased">
+
+    <!-- NAVBAR -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-3 bg-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="relative w-12 h-12 rounded-full border-2 border-brand-gold bg-white p-1 overflow-hidden transition-transform group-hover:scale-105">
+                        <img src="logo.png" alt="Kailash Atta" class="w-full h-full object-contain" />
+                    </div>
+                    <div class="hidden sm:block">
+                        <div class="font-heading font-bold text-brand-primary text-xl leading-none">Kailash Pavitra Atta</div>
+                        <div class="text-[0.65rem] tracking-widest uppercase text-brand-gold font-semibold mt-1">Since 1972</div>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="text-sm font-semibold text-brand-primary border-b-2 border-brand-primary">Home</a>
+                    <a href="products.html" class="text-sm font-medium text-gray-600 hover:text-brand-primary transition-colors">Products</a>
+                    <a href="about.html" class="text-sm font-medium text-gray-600 hover:text-brand-primary transition-colors">About Us</a>
+                    <a href="blog.html" class="text-sm font-medium text-gray-600 hover:text-brand-primary transition-colors">Blog</a>
+                    
+                    <div class="flex items-center gap-4 ml-4">
+                        <button onclick="openCart()" class="relative p-2 text-brand-primary hover:text-brand-gold transition-colors">
+                            <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                            <span class="cart-count hidden absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+                        </button>
+                        <a href="https://wa.me/919462677346" target="_blank" class="flex items-center gap-2 bg-brand-primary hover:bg-brand-gold text-white px-5 py-2.5 rounded-full text-xs font-bold tracking-wide transition-all shadow-md">
+                            <i data-lucide="message-circle" class="w-4 h-4"></i>
+                            Order on WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile Buttons -->
+                <div class="flex items-center gap-4 md:hidden">
+                    <button onclick="openCart()" class="relative p-2 text-brand-primary">
+                        <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                        <span class="cart-count hidden absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="text-brand-primary p-2">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-100 animate-slide-down">
+            <div class="px-4 py-6 space-y-4">
+                <a href="index.html" class="block text-brand-primary font-bold">Home</a>
+                <a href="products.html" class="block text-gray-600 font-medium">Products</a>
+                <a href="about.html" class="block text-gray-600 font-medium">About Us</a>
+                <a href="blog.html" class="block text-gray-600 font-medium">Blog</a>
+                <div class="pt-4 mt-4 border-t border-gray-100">
+                    <a href="https://wa.me/919462677346" target="_blank" class="flex items-center justify-center gap-2 bg-brand-primary text-white p-3 rounded-lg font-semibold w-full">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i> WhatsApp Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CART DRAWER -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300" onclick="closeCart()"></div>
+    <div id="cart-drawer" class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white z-[70] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-brand-bg">
+            <h2 class="font-heading font-bold text-xl text-brand-primary flex items-center gap-2">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-gold"></i> Your Bag
+            </h2>
+            <button onclick="closeCart()" class="p-2 text-gray-400 hover:text-brand-primary rounded-full hover:bg-white transition-all">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar">
+            <!-- Items injected by JS -->
+        </div>
+
+        <div class="border-t border-gray-100 p-6 bg-brand-bg/50">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-semibold text-gray-600">Subtotal</span>
+                <span id="cart-subtotal" class="text-xl font-bold text-brand-primary">₹0</span>
+            </div>
+            <p class="text-xs text-center text-gray-500 mb-6">Delivery and taxes calculated at checkout.</p>
+            <a href="checkout.html" class="w-full bg-brand-primary hover:bg-brand-gold text-white py-4 rounded-xl font-bold tracking-widest uppercase transition-all shadow-md flex items-center justify-center gap-2 group">
+                Proceed to Checkout <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        <!-- HERO SECTION -->
+        <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden flex items-center min-h-[85vh] bg-[#faf8f5]">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex flex-col items-center text-center">
+                <div class="animate-fade-in w-full flex flex-col items-center">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#f3ecd8] mb-8 shadow-sm">
+                        <span class="flex gap-0.5 text-[#d4af37] text-sm">★★★★★</span>
+                        <span class="text-brand-text text-xs font-semibold tracking-wide">Trusted By Kota Families</span>
+                    </div>
+                    
+                    <h1 class="text-6xl md:text-8xl font-heading font-bold text-[#2a4332] leading-tight mb-2 tracking-tight">
+                        Kota's Trusted Atta
+                    </h1>
+                    <div class="text-5xl md:text-7xl font-heading text-[#d4af37] italic mb-8 -mt-2">
+                        Since 1972
+                    </div>
+                    
+                    <p class="text-lg md:text-xl text-[#3b5945]/80 mb-12 max-w-2xl font-medium">
+                        Freshly Ground. Naturally Nutritious. Delivered To Your Doorstep.
+                    </p>
+                    
+                    <div class="flex flex-wrap items-center justify-center gap-4">
+                        <a href="products.html" class="bg-[#3b5945] hover:bg-[#2a4332] text-white px-8 py-3.5 rounded-full text-sm font-bold tracking-widest transition-all shadow-md hover:shadow-lg inline-block">
+                            SHOP NOW
+                        </a>
+                        <a href="about.html" class="bg-transparent border border-[#3b5945] text-[#3b5945] hover:bg-[#3b5945]/5 px-8 py-3.5 rounded-full text-sm font-bold tracking-widest transition-all inline-block">
+                            OUR STORY
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRUST SECTION -->
+        <section class="py-20 bg-brand-text relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-5xl font-heading font-semibold text-white mb-4">Why Choose <span class="text-brand-gold italic">Us?</span></h2>
+                    <p class="text-white/60 max-w-2xl mx-auto font-light">Over five decades of delivering uncompromising purity and health to thousands of families in Kota.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                    <div class="bg-white/5 border border-white/10 p-6 rounded-lg text-center hover:bg-white/10 hover:-translate-y-1 transition-all">
+                        <i data-lucide="shield-check" class="w-10 h-10 mx-auto text-brand-gold mb-4"></i>
+                        <h3 class="text-white font-heading text-lg font-medium">50+ Years of Trust</h3>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-6 rounded-lg text-center hover:bg-white/10 hover:-translate-y-1 transition-all">
+                        <i data-lucide="leaf" class="w-10 h-10 mx-auto text-brand-gold mb-4"></i>
+                        <h3 class="text-white font-heading text-lg font-medium">Freshly Ground</h3>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-6 rounded-lg text-center hover:bg-white/10 hover:-translate-y-1 transition-all">
+                        <i data-lucide="truck" class="w-10 h-10 mx-auto text-brand-gold mb-4"></i>
+                        <h3 class="text-white font-heading text-lg font-medium">Free Delivery</h3>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-6 rounded-lg text-center hover:bg-white/10 hover:-translate-y-1 transition-all">
+                        <i data-lucide="wheat" class="w-10 h-10 mx-auto text-brand-gold mb-4"></i>
+                        <h3 class="text-white font-heading text-lg font-medium">Premium Grains</h3>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-6 rounded-lg text-center hover:bg-white/10 hover:-translate-y-1 transition-all">
+                        <i data-lucide="map-pin" class="w-10 h-10 mx-auto text-brand-gold mb-4"></i>
+                        <h3 class="text-white font-heading text-lg font-medium">Serving Kota Families</h3>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-6 rounded-lg text-center hover:bg-white/10 hover:-translate-y-1 transition-all">
+                        <i data-lucide="heart-handshake" class="w-10 h-10 mx-auto text-brand-gold mb-4"></i>
+                        <h3 class="text-white font-heading text-lg font-medium">Family Owned</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS PREVIEW SECTION -->
+        <section class="py-24 bg-brand-bg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <div class="text-brand-gold text-sm font-semibold tracking-widest uppercase mb-4 flex items-center justify-center gap-4">
+                        <span class="w-12 h-px bg-brand-gold/50"></span>
+                        Popular Choices
+                        <span class="w-12 h-px bg-brand-gold/50"></span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-heading font-semibold text-brand-text">Fresh Every <span class="text-brand-gold italic">Day</span></h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Product 1 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-brand-gold/10 hover:shadow-2xl transition-all duration-500 group">
+                        <div class="h-64 bg-white flex items-center justify-center relative overflow-hidden">
+                            <img src="chakki.jpg" alt="Shudh Chakki Atta" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <div class="text-[0.65rem] tracking-widest uppercase text-brand-gold font-bold mb-1">Premium Quality</div>
+                                    <h3 class="text-2xl font-heading font-bold text-brand-text">Shudh Chakki Atta</h3>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm text-brand-text/60 font-medium">5 KG</div>
+                                    <div class="text-xl font-bold text-brand-primary">₹199</div>
+                                </div>
+                            </div>
+                            <div class="pt-4 mt-4 border-t border-brand-gold/10">
+                                <button onclick="addToCart('chakki', 'Shudh Chakki Atta', 199, '5 KG', 'chakki.jpg')" class="w-full bg-brand-primary hover:bg-brand-gold text-white py-3 rounded-md text-sm font-bold tracking-wider uppercase transition-colors shadow-md">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-brand-gold/10 hover:shadow-2xl transition-all duration-500 group">
+                        <div class="h-64 bg-white flex items-center justify-center relative overflow-hidden">
+                            <img src="multigrain.jpg" alt="Multigrain Atta" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <div class="text-[0.65rem] tracking-widest uppercase text-brand-gold font-bold mb-1">7 Grains Blend</div>
+                                    <h3 class="text-2xl font-heading font-bold text-brand-text">Multigrain Atta</h3>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm text-brand-text/60 font-medium">5 KG</div>
+                                    <div class="text-xl font-bold text-brand-primary">₹299</div>
+                                </div>
+                            </div>
+                            <div class="pt-4 mt-4 border-t border-brand-gold/10">
+                                <button onclick="addToCart('multigrain', 'Multigrain Atta', 299, '5 KG', 'multigrain.jpg')" class="w-full bg-brand-primary hover:bg-brand-gold text-white py-3 rounded-md text-sm font-bold tracking-wider uppercase transition-colors shadow-md">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-brand-gold/10 hover:shadow-2xl transition-all duration-500 group">
+                        <div class="h-64 bg-white flex items-center justify-center relative overflow-hidden">
+                            <img src="protein.jpg" alt="Protein Atta" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <div class="text-[0.65rem] tracking-widest uppercase text-brand-gold font-bold mb-1">Natural Strength</div>
+                                    <h3 class="text-2xl font-heading font-bold text-brand-text">Protein Atta</h3>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm text-brand-text/60 font-medium">5 KG</div>
+                                    <div class="text-xl font-bold text-brand-primary">₹349</div>
+                                </div>
+                            </div>
+                            <div class="pt-4 mt-4 border-t border-brand-gold/10">
+                                <button onclick="addToCart('protein', 'Protein Atta', 349, '5 KG', 'protein.jpg')" class="w-full bg-brand-primary hover:bg-brand-gold text-white py-3 rounded-md text-sm font-bold tracking-wider uppercase transition-colors shadow-md">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="products.html" class="inline-flex items-center gap-2 text-brand-primary hover:text-brand-gold font-bold uppercase tracking-widest transition-colors">
+                        View All Products <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#2d3a18] text-[#f5efe0] pt-16 pb-8 border-t-[6px] border-brand-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div class="space-y-6">
+                    <a href="index.html" class="flex items-center gap-3">
+                        <div class="w-16 h-16 rounded-full border-2 border-brand-gold bg-white p-1">
+                            <img src="logo.png" alt="Logo" class="w-full h-full object-contain" />
+                        </div>
+                        <div>
+                            <div class="font-heading font-semibold text-white text-xl">Kailash Pavitra Atta</div>
+                            <div class="text-[0.65rem] tracking-widest uppercase text-brand-gold mt-1">Since 1972</div>
+                        </div>
+                    </a>
+                    <p class="text-sm text-[#f5efe0]/70 leading-relaxed max-w-sm">
+                        Kota's trusted traditional flour mill. Delivering pure, freshly ground chakki atta to your family's doorstep.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold text-brand-gold tracking-widest uppercase mb-6">Quick Links</h3>
+                    <ul class="space-y-4 text-sm text-[#f5efe0]/80">
+                        <li><a href="index.html" class="hover:text-brand-gold transition-colors">Home</a></li>
+                        <li><a href="products.html" class="hover:text-brand-gold transition-colors">Products</a></li>
+                        <li><a href="about.html" class="hover:text-brand-gold transition-colors">About Us</a></li>
+                        <li><a href="blog.html" class="hover:text-brand-gold transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold text-brand-gold tracking-widest uppercase mb-6">Contact Us</h3>
+                    <ul class="space-y-4 text-sm text-[#f5efe0]/80">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-brand-gold shrink-0 mt-0.5"></i>
+                            <span>1A8 Mahaveer nagar 3rd ,<br/>Kota 324005</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-brand-gold shrink-0"></i>
+                            <a href="tel:+919462677346" class="hover:text-brand-gold transition-colors">+91 94626 77346</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="message-circle" class="w-5 h-5 text-brand-gold shrink-0"></i>
+                            <a href="https://wa.me/919462677346" target="_blank" class="hover:text-brand-gold transition-colors">+91 94626 77346</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="h-48 rounded-lg overflow-hidden relative border border-white/10 group">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11394.020279612347!2d75.83693895!3d25.1783084!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396f9a0077c59a53%3A0x6b80af025c8d0a47!2sKala%20Talab%2C%20Kota%2C%20Rajasthan%20324002!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" class="grayscale group-hover:grayscale-0 transition-all duration-500"></iframe>
+                    <a href="https://share.google/ZXfU1cBKSMQ7lIldM" target="_blank" class="absolute bottom-3 left-3 right-3 bg-[#2d3a18]/90 backdrop-blur text-brand-gold text-xs font-semibold py-2 px-4 rounded-md text-center hover:bg-brand-gold hover:text-white transition-colors">
+                        View on Google Maps
+                    </a>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-white/10 flex justify-between items-center text-xs text-[#f5efe0]/50">
+                <p>&copy; 2026 Kailash Pavitra Atta. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
