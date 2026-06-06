@@ -75,9 +75,23 @@
         </div>
         <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar"></div>
         <div class="border-t border-gray-100 p-6 bg-brand-bg/50">
-            <div class="flex items-center justify-between mb-4">
-                <span class="text-sm font-semibold text-gray-600">Subtotal</span>
-                <span id="cart-subtotal" class="text-xl font-bold text-brand-primary">₹0</span>
+            <div class="space-y-2 mb-4 border-b border-gray-100 pb-4">
+                <div class="flex items-center justify-between text-sm text-gray-600">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">₹0</span>
+                </div>
+                <div class="flex items-center justify-between text-sm text-gray-600">
+                    <span>Delivery Fee</span>
+                    <span>₹40</span>
+                </div>
+                <div class="flex items-center justify-between text-sm text-green-600 font-semibold">
+                    <span>Free Delivery Promo</span>
+                    <span>-₹40</span>
+                </div>
+            </div>
+            <div class="flex items-center justify-between mb-6">
+                <span class="text-lg font-bold text-brand-primary">Total</span>
+                <span id="cart-total" class="text-xl font-bold text-brand-primary">₹0</span>
             </div>
             <a href="checkout.html" class="w-full bg-brand-primary hover:bg-brand-gold text-white py-4 rounded-xl font-bold tracking-widest uppercase transition-all shadow-md flex items-center justify-center gap-2 group">
                 Proceed to Checkout <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>

@@ -30,7 +30,7 @@
                 
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm font-semibold mb-1">Full Name</label>
+                        <label class="block text-sm font-semibold mb-1">Receiver's Full Name</label>
                         <input type="text" name="name" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand-gold outline-none" placeholder="Your Name">
                     </div>
                     <div>
@@ -39,11 +39,24 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold mb-1">Delivery Address (Kota only)</label>
-                        <textarea name="address" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand-gold outline-none h-24" placeholder="House no, Street, Landmark..."></textarea>
+                        <textarea name="address" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand-gold outline-none h-20" placeholder="House no, Street, Colony..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Landmark</label>
+                        <input type="text" name="landmark" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand-gold outline-none" placeholder="Near Hospital, School etc.">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1">Live Location (Compulsory)</label>
+                        <p class="text-xs text-gray-500 mb-2">We need your accurate location to deliver directly to your doorstep.</p>
+                        <button type="button" onclick="fetchLocation()" id="location-btn" class="w-full bg-brand-bg border-2 border-brand-primary text-brand-primary py-3 rounded-lg font-bold shadow-sm flex justify-center items-center gap-2 hover:bg-brand-primary hover:text-white transition-colors">
+                            <i data-lucide="map-pin"></i> Fetch Current Location
+                        </button>
+                        <input type="hidden" id="live_location" name="live_location">
+                        <p id="location-status" class="text-xs font-semibold mt-2 hidden"></p>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold mb-1">Any specific instructions?</label>
-                        <input type="text" name="instructions" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand-gold outline-none" placeholder="E.g. Leave at gate">
+                        <input type="text" name="instructions" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-brand-gold outline-none" placeholder="E.g. Call before arriving">
                     </div>
                 </div>
 

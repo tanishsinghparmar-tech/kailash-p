@@ -90,7 +90,11 @@ function updateCartUI() {
 
     // Update Totals
     const subtotalEl = document.getElementById('cart-subtotal');
-    if (subtotalEl) subtotalEl.innerText = `₹${getCartTotal()}`;
+    const totalEl = document.getElementById('cart-total');
+    const total = getCartTotal();
+    
+    if (subtotalEl) subtotalEl.innerText = `₹${total}`;
+    if (totalEl) totalEl.innerText = `₹${total}`;
 
     // Re-initialize icons for newly added HTML
     if (window.lucide) {
@@ -141,6 +145,46 @@ function showToast(msg) {
     }, 2000);
 }
 
+// --- LOCATION LOGIC ---
+function fetchLocation() {
+    const statusEl = document.getElementById('location-status');
+    const inputEl = document.getElementById('live_location');
+    const btnEl = document.getElementById('location-btn');
+    
+    statusEl.classList.remove('hidden');
+    statusEl.innerText = 'Fetching your location...';
+    statusEl.className = 'text-xs font-semibold mt-2 text-[#d4af37]';
+
+    if (!navigator.geolocation) {
+        statusEl.innerText = 'Geolocation is not supported by your browser.';
+        statusEl.className = 'text-xs font-semibold mt-2 text-red-500';
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            const mapsLink = `https://maps.google.com/?q=${lat},${lng}`;
+            
+            inputEl.value = mapsLink;
+            statusEl.innerText = '✓ Location fetched successfully!';
+            statusEl.className = 'text-xs font-semibold mt-2 text-green-600';
+            
+            // Change button appearance
+            btnEl.classList.remove('bg-brand-bg', 'text-brand-primary');
+            btnEl.classList.add('bg-green-50', 'border-green-500', 'text-green-700');
+            btnEl.innerHTML = `<i data-lucide="check-circle-2"></i> Location Saved`;
+            if (window.lucide) lucide.createIcons();
+        },
+        (error) => {
+            statusEl.innerText = 'Failed to get location. Please allow location access in your browser settings.';
+            statusEl.className = 'text-xs font-semibold mt-2 text-red-500';
+        },
+        { enableHighAccuracy: true }
+    );
+}
+
 // Check out functions (for checkout.html)
 function processCheckout(event) {
     event.preventDefault();
@@ -153,13 +197,22 @@ function processCheckout(event) {
     const name = form.name.value;
     const phone = form.phone.value;
     const address = form.address.value;
+    const landmark = form.landmark ? form.landmark.value : "None";
+    const locationLink = form.live_location ? form.live_location.value : "";
     const instructions = form.instructions.value || "None";
+
+    if (!locationLink) {
+        alert("Please fetch your Live Location. It is compulsory for accurate delivery.");
+        return;
+    }
 
     let message = `*New Order - Kailash Pavitra Atta* 🌾\n\n`;
     message += `*Customer Details:*\n`;
     message += `Name: ${name}\n`;
     message += `Phone: ${phone}\n`;
     message += `Address: ${address}\n`;
+    message += `Landmark: ${landmark}\n`;
+    message += `Live Location: ${locationLink}\n`;
     message += `Instructions: ${instructions}\n\n`;
     
     message += `*Order Summary:*\n`;
@@ -168,12 +221,11 @@ function processCheckout(event) {
     });
     
     const total = getCartTotal();
-    message += `\n*Total Amount: ₹${total}*\n`;
-    if (total < 300) {
-        message += `Delivery Fee: ₹40\n*Final Amount: ₹${total + 40}*\n`;
-    } else {
-        message += `Delivery Fee: FREE\n*Final Amount: ₹${total}*\n`;
-    }
+    message += `\n*Billing:*\n`;
+    message += `Subtotal: ₹${total}\n`;
+    message += `Delivery Fee: ₹40\n`;
+    message += `Free Delivery Promo: -₹40\n`;
+    message += `*Final Amount to Pay: ₹${total}*\n`;
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/919462677346?text=${encodedMessage}`;
